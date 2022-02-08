@@ -1,0 +1,46 @@
+name: "Build"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+      
+jobs:
+  build:
+    outputs:
+      version: ${{ steps.vsix_version.outputs.version-number }}
+    name: Build 
+    runs-on: windows-latest
+    env:
+      Configuration: Release
+      DeployExtension: False
+      VsixManifestPath: src\source.extension.vsixmanifest
+      VsixManifestSourcePath: src\source.extension.cs
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET build dependencies
+      uses: timheuer/bootstrap-dotnet@v1
+      with:
+        nuget: 'false'
+        sdk: 'false'
+        msbuild: 'true'
+
+    - name: Increment VSIX version
+      id: vsix_version
+      uses: timheuer/vsix-version-stamp@v1
+      with:
+        manifest-file: ${{ env.VsixManifestPath }}
+        vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
+
+    - name: Build
+      run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m   
+
+    - name: Publish extension to Marketplace
+      uses: cezarypiatek/VsixPublisherAction@0.1
+      with:
+        extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
+        publish-manifest-file: 'vs-publish.json'
+        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
