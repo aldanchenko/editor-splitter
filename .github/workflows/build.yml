@@ -16,7 +16,7 @@ jobs:
       Configuration: Release
       DeployExtension: False
       VsixManifestPath: .\VsEditorSplitter\source.extension.vsixmanifest
-      VsixManifestSourcePath: src\source.extension.cs
+      VsixManifestSourcePath: .\VsEditorSplitter\source.extension.cs
       
     steps:
     - uses: actions/checkout@v2
