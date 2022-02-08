@@ -1,0 +1,12 @@
+
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [ "extension sdk", "coding" ],
+  "identity": {
+    "internalName": "VsEditorSplitter"
+  },
+  "assetFiles": [
+  ],
+  "overview": "README.md",
+  "publisher": "Alex Danchenko", 
+  "repo": "https://github.com/aldanchenko/vs-editor-splitter/"
+}
