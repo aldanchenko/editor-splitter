@@ -51,4 +51,7 @@ jobs:
       with:
         extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
         publish-manifest-file: 'vs-publish.json'
-        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
+        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}'
+    
+    - name: Release
+      uses: softprops/action-gh-release@v1
