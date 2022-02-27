@@ -36,22 +36,22 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Increment VSIX version
-      id: vsix_version
-      uses: timheuer/vsix-version-stamp@v1
-      with:
-        manifest-file: ${{ env.VsixManifestPath }}
-        vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
+#     - name: Increment VSIX version
+#       id: vsix_version
+#       uses: timheuer/vsix-version-stamp@v1
+#       with:
+#         manifest-file: ${{ env.VsixManifestPath }}
+#         vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
 
     - name: Build
       run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m   
 
-    - name: Publish extension to Marketplace
-      uses: cezarypiatek/VsixPublisherAction@0.1
-      with:
-        extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
-        publish-manifest-file: 'vs-publish.json'
-        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}'
+#     - name: Publish extension to Marketplace
+#       uses: cezarypiatek/VsixPublisherAction@0.1
+#       with:
+#         extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
+#         publish-manifest-file: 'vs-publish.json'
+#         personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}'
     
     - name: Release
       uses: softprops/action-gh-release@v1
