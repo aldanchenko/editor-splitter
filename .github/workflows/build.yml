@@ -23,7 +23,7 @@ jobs:
       Configuration: Release
       DeployExtension: False
       VsixManifestPath: .\VsEditorSplitter\source.extension.vsixmanifest
-      VsixManifestSourcePath: .\VsEditorSplitter\source.extension.cs
+#       VsixManifestSourcePath: .\VsEditorSplitter\source.extension.cs
       
     steps:
     - uses: actions/checkout@v2
@@ -44,7 +44,7 @@ jobs:
       uses: timheuer/vsix-version-stamp@v1
       with:
         manifest-file: ${{ env.VsixManifestPath }}
-        vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
+#         vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
         
     - name: Set up Git actions user
       uses: fregante/setup-git-user@v1
