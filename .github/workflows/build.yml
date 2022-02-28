@@ -52,17 +52,12 @@ jobs:
     - name: Commit new version
       run: | 
         git commit -am 'increment new version'
+        git tag ${{ steps.vsix_version.version-number }}
         git push
+        git push --tags
 
     - name: Build
       run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m   
-
-#     - name: Publish extension to Marketplace
-#       uses: cezarypiatek/VsixPublisherAction@0.1
-#       with:
-#         extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
-#         publish-manifest-file: 'vs-publish.json'
-#         personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}'
     
     - name: Create Release
       id: create_release
@@ -70,8 +65,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.vsix_version.version-number }}
+        release_name: Release ${{ steps.vsix_version.version-number }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
@@ -84,3 +79,10 @@ jobs:
         asset_path: .\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix
         asset_name: VsEditorSplitter.vsix
         asset_content_type: application/zip
+        
+    - name: Publish extension to Marketplace
+      uses: cezarypiatek/VsixPublisherAction@0.1
+      with:
+        extension-file: '.\VsEditorSplitter\bin\Release\VsEditorSplitter.vsix'
+        publish-manifest-file: 'vs-publish.json'
+        personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}'
