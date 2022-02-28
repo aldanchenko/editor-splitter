@@ -53,8 +53,8 @@ jobs:
       run: | 
         git commit -am 'increment new version'
         git tag ${{ steps.vsix_version.outputs.version-number }}
-        git push
-        git push --tags
+        git push origin main
+        git push origin main --tags
 
     - name: Build
       run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m   
