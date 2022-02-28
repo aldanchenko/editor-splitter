@@ -6,7 +6,7 @@ namespace VsEditorSplitter
         public const string Name = "VsEditorSplitter";
         public const string Description = @"Empty VSIX Project.";
         public const string Language = "en-US";
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.19";
         public const string Author = "Alex Danchenko";
         public const string Tags = "vsix, tool";
     }
