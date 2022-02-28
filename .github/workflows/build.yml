@@ -52,7 +52,7 @@ jobs:
     - name: Commit new version
       run: | 
         git commit -am 'increment new version'
-        git tag ${{ steps.vsix_version.version-number }}
+        git tag ${{ steps.vsix_version.outputs.version-number }}
         git push
         git push --tags
 
@@ -65,8 +65,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.vsix_version.version-number }}
-        release_name: Release ${{ steps.vsix_version.version-number }}
+        tag_name: ${{ steps.vsix_version.outputs.version-number }}
+        release_name: Release ${{ steps.vsix_version.outputs.version-number }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
