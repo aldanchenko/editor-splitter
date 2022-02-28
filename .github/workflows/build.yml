@@ -23,10 +23,19 @@ jobs:
       Configuration: Release
       DeployExtension: False
       VsixManifestPath: .\VsEditorSplitter\source.extension.vsixmanifest
-#       VsixManifestSourcePath: .\VsEditorSplitter\source.extension.cs
       
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Unshallow
+      run: git fetch --prune --unshallow
+    
+    - uses: actions/cache@v2
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
     - name: Setup .NET build dependencies
       uses: timheuer/bootstrap-dotnet@v1
@@ -44,7 +53,6 @@ jobs:
       uses: timheuer/vsix-version-stamp@v1
       with:
         manifest-file: ${{ env.VsixManifestPath }}
-#         vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
         
     - name: Set up Git actions user
       uses: fregante/setup-git-user@v1
