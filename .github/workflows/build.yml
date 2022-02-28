@@ -45,6 +45,12 @@ jobs:
       with:
         manifest-file: ${{ env.VsixManifestPath }}
         vsix-token-source-file: ${{ env.VsixManifestSourcePath }}
+        
+    - name: Set up Git actions user
+      uses: fregante/setup-git-user@v1
+      
+    - name: Commit new version
+      run: git commit -am "chore: increment new version"
 
     - name: Build
       run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m   
